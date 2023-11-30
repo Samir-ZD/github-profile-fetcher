@@ -11,6 +11,7 @@ export const GithubProvider = ({ children }) => {
 
     const initialState = {
         users: [],
+        user:{},
         loading: true
     }
 
@@ -54,6 +55,7 @@ export const GithubProvider = ({ children }) => {
 
     return <GithubContext.Provider value={{
         users: state.users,
+        user:state.user,
         loading: state.loading,
         fetchUsers,
         clearUsers

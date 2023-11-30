@@ -10,7 +10,8 @@ const gitReducer = (state, action) => {
         
         case 'CLEAR_USERS':
             return{
-                users:[]
+                users:[],
+                loading: true
             }
 
         default:

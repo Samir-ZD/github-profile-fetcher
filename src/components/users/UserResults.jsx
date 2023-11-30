@@ -14,10 +14,9 @@ function UserResults() {
                     <UserItem key={user.id} user={user} />
                 ))}
             </div>
-
         )
     } else {
-        return <h3>Loading...</h3>
+        return <progress className="progress w-56"></progress>
     }
 }
 
