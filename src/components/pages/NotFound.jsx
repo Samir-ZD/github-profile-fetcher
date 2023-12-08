@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom'
 
 function NotFound() {
     return (
-
-
         <div className="hero">
             <div className="hero-content text-center">
                 <div className="max-w-md">
@@ -13,9 +11,6 @@ function NotFound() {
                 </div>
             </div>
         </div>
-
-
-
     )
 }
 

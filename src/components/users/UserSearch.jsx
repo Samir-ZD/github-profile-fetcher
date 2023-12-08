@@ -6,18 +6,29 @@ function UserSearch() {
 
   const [text, setText] = useState("")
 
-  const { users, fetchUsers, clearUsers } = useContext(GithubContext)
-  const {setAlert} = useContext(AlertContext)
+  const { users, fetchUsers, clearUsers, count, getTotalUsers } = useContext(GithubContext)
+  const { setAlert } = useContext(AlertContext)
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (text === '') {
-      // return alert("Please Enter a user!")
-     return setAlert("Please Enter a user!","error")
+    if (text === "") {
+      return setAlert("Please enter a username!", "error")
     }
-    fetchUsers(text)
-    setText('')
+
+    try {
+
+      await fetchUsers(text)
+
+      if (count >= 1) {
+        return setAlert(`Users found!`, "success")
+      } else {
+        return setAlert(`No users found!`, "warning")
+      }
+    } catch (error) {
+      console.error("Error fetching users:", error)
+      setAlert("An error occurred while fetching users.", "error")
+    }
   }
 
   return (
@@ -37,7 +48,6 @@ function UserSearch() {
         <div>
           <button className="btn btn-ghost btn-lg" onClick={clearUsers}>Clear</button>
         </div>)}
-
     </div>
   )
 }
