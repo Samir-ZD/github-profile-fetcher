@@ -45,7 +45,7 @@ export const GithubProvider = ({ children }) => {
 
                 dispatch({
                     type: 'GET_USERS',
-                    payload: items
+                    payload: {items, total_count}
                 })
             }
 

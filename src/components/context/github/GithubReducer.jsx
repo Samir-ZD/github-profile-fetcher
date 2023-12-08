@@ -2,11 +2,11 @@ const gitReducer = (state, action) => {
     switch (action.type) {
 
         case 'GET_USERS':
-            console.log(typeof count)
+            // console.log(typeof count)
             return {
                 ...state,
                 users: action.payload.items,
-                count: action.payload.items,
+                count: action.payload.total_count,
                 loading: false
             }
 
@@ -21,7 +21,7 @@ const gitReducer = (state, action) => {
         case 'TOTAL_USERS':
             return {
                 ...state,
-                // user: action.payload,
+                user: action.payload,
                 count: action.payload,
                 loading: false
             }

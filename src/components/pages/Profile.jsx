@@ -14,7 +14,7 @@ function Profile() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <span className="loading loading-spinner loading-lg"></span>;
   }
 
   const { login, name, type, avatar_url, location, bio, blog, twitter_username, html_url, followers, following,
