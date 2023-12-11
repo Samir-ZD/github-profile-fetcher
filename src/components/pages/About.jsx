@@ -3,7 +3,7 @@ import React from 'react'
 function About() {
   return (
     <div>
-       <p className='text-6xl'>A React app that fetches GitHub users and displays their profiles alongside their repositories. </p>
+       <p className='text-2xl'>A React app that fetches GitHub users and displays their profiles alongside their repositories. </p>
     </div>
   )
 }
