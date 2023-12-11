@@ -1,30 +1,31 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef } from 'react'
 import GithubContext from '../context/github/GithubContext'
 import AlertContext from '../context/alert/AlertContext'
+import { fetchUsers } from '../context/github/GitHubActions'
+
 
 function UserSearch() {
 
   const [text, setText] = useState("")
 
-  const { users, fetchUsers, clearUsers, count, getTotalUsers } = useContext(GithubContext)
+  const { users, dispatch } = useContext(GithubContext)
   const { setAlert } = useContext(AlertContext)
+
+  const inputText = useRef(text)
 
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    if (text === "") {
+    if (inputText.current.value === "") {
       return setAlert("Please enter a username!", "error")
     }
 
     try {
 
-      await fetchUsers(text)
+      const users = await fetchUsers(text)
 
-      if (count >= 1) {
-        return setAlert(`Users found!`, "success")
-      } else {
-        return setAlert(`No users found!`, "warning")
-      }
+      dispatch({ type: 'GET_USERS', payload: users })
+
     } catch (error) {
       console.error("Error fetching users:", error)
       setAlert("An error occurred while fetching users.", "error")
@@ -38,7 +39,7 @@ function UserSearch() {
           <div className="form-control">
             <div className="relative">
               <input type="text" className="w-full pr-40 bg-gray-200 input input-lg text-black"
-                placeholder='Search users' value={text} onChange={(e) => setText(e.target.value)} />
+                placeholder='Search users' ref={inputText} onChange={(e) => setText(e.target.value)} />
               <button type="submit" className="absolute top-0 right-0 rounded-l-none w-36 btn btn-lg">Search</button>
             </div>
           </div>
@@ -46,7 +47,7 @@ function UserSearch() {
       </div>
       {users.length > 0 && (
         <div>
-          <button className="btn btn-ghost btn-lg" onClick={clearUsers}>Clear</button>
+          <button className="btn btn-ghost btn-lg" onClick={() => dispatch({ type: "CLEAR_USERS" })}>Clear</button>
         </div>)}
     </div>
   )

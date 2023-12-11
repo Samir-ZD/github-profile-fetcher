@@ -3,14 +3,24 @@ import GithubContext from '../context/github/GithubContext';
 import { useParams, Link } from 'react-router-dom';
 import { FaCodepen, FaUserFriends, FaUsers } from 'react-icons/fa';
 import RepoList from '../repos/RepoList';
+import { getUserRepos, searchUser } from '../context/github/GitHubActions';
 
 function Profile() {
-  const { user, searchUser, loading, repos, getUserRepos } = useContext(GithubContext);
+  const { user, loading, repos, dispatch } = useContext(GithubContext);
   const params = useParams();
 
   useEffect(() => {
-    searchUser(params.login);
-    getUserRepos(params.login)
+    
+    const getUserData = async () => {
+
+      const userData = await searchUser(params.login)
+      dispatch({ type: 'SEARCH_USER', payload: userData })
+
+      const userRepos = await getUserRepos(params.login)
+      await dispatch({ type: 'GET_USER_REPOS', payload: userRepos })
+    }
+
+    getUserData()
   }, []);
 
   if (loading) {
@@ -19,8 +29,6 @@ function Profile() {
 
   const { login, name, type, avatar_url, location, bio, blog, twitter_username, html_url, followers, following,
     public_repos, hireable } = user
-
-
 
   return (
     <div className="w-full mx-auto lg:w-10/12 space-y-8">
